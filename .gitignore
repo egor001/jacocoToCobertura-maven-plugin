@@ -1,0 +1,8 @@
+.idea
+*.iml
+.project
+!.m2/settings.xml
+!.mvn/wrapper/maven-wrapper.properties
+.mvn
+target
+*.log*

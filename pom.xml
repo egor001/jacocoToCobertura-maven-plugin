@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.siblion.lab</groupId>
+    <artifactId>jacocoToCobertura-maven-plugin</artifactId>
+    <packaging>maven-plugin</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Maven JacocoToCobertura plugin</name>
+    <description>Converts the jacoco file format to cobertura file format to display test coverage in gitlab</description>
+    <url>maven.apache.org</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <!--dependency versions-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-plugin-api.version>3.6.3</maven-plugin-api.version>
+        <maven-plugin-annotations.version>3.6.0</maven-plugin-annotations.version>
+        <maven-project.version>2.2.1</maven-project.version>
+        <lombok.version>1.18.24</lombok.version>
+        <jdom2.version>2.0.6</jdom2.version>
+        <junit-jupiter.version>5.8.2</junit-jupiter.version>
+        <slf4j-simple.version>2.0.4</slf4j-simple.version>
+        <dependency-check-maven.version>8.1.1</dependency-check-maven.version>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <!--plugin versions-->
+        <maven-plugin-plugin.version>3.7.1</maven-plugin-plugin.version>
+        <maven-site-plugin.version>3.8.2</maven-site-plugin.version>
+        <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
+        <junit-jupiter-engine.version>5.9.2</junit-jupiter-engine.version>
+        <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+        <maven-invoker-plugin.version>3.5.0</maven-invoker-plugin.version>
+        <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>${maven-plugin-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>${maven-plugin-annotations.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-project</artifactId>
+            <version>${maven-project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom2</artifactId>
+            <version>${jdom2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter-engine.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-simple.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <version>${maven-invoker-plugin.version}</version>
+            <type>maven-plugin</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>${maven-plugin-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven-project-info-reports-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${dependency-check-maven.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>${maven-invoker-plugin.version}</version>
+                <configuration>
+                    <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+                    <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+                    <postBuildHookScript>verify</postBuildHookScript> <!-- no extension required -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>install</goal>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>
