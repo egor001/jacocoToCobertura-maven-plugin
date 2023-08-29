@@ -26,13 +26,13 @@ public class ConverterMojo extends AbstractMojo {
     /**
      * Path to jacoco format file.
      */
-    @Parameter(property = "source", defaultValue = "/target/site/jacoco/jacoco.xml")
+    @Parameter(property = "source", defaultValue = "target/site/jacoco/jacoco.xml")
     String source;
 
     /**
      * Path, where the cobertura format file is to be written.
      */
-    @Parameter(property = "result", defaultValue = "/target/site/cobertura/cobertura.xml")
+    @Parameter(property = "result", defaultValue = "target/site/cobertura/cobertura.xml")
     String result;
 
     /**

@@ -7,7 +7,7 @@
     <groupId>ru.siblion.lab</groupId>
     <artifactId>jacocoToCobertura-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>Maven JacocoToCobertura plugin</name>
     <description>Converts the jacoco file format to cobertura file format to display test coverage in gitlab</description>
     <url>maven.apache.org</url>

@@ -29,7 +29,8 @@ import static java.lang.Math.round;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Converter {
 
-    public static void convert(Path source, Path destination, List<String> pathsToProject) throws IOException, JDOMException, XMLStreamException {
+    public static void convert(Path source, Path destination, List<String> pathsToProject) 
+            throws IOException, JDOMException, XMLStreamException {
         SAXBuilder saxBuilder = new SAXBuilder();
         saxBuilder.setFeature("http://xml.org/sax/features/validation", false);
         saxBuilder.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
@@ -54,14 +55,15 @@ public class Converter {
             log.error(errorMessage, e);
             throw e;
         } catch (IOException e) {
-            String errorMessage = String.format("Can't find the source file in the path: <%s> or <%s>. Please, check '/' in the beginning of the path",
-                    source, destination);
+            String errorMessage = String.format("Can't find the source file in the path: <%s> or <%s>. " +
+                            "Please, check the added path", source, destination);
             log.error(errorMessage, e);
             throw e;
         }
     }
 
-    private static void convertHeadOfFile(Path destination, Document doc, List<String> pathsToProject) throws IOException, XMLStreamException {
+    private static void convertHeadOfFile(Path destination, Document doc, List<String> pathsToProject) 
+            throws IOException, XMLStreamException {
         Element rootNode = doc.getRootElement();
         String start = rootNode.getChild("sessioninfo").getAttributeValue("start");
         start = convertNumber(Double.parseDouble(start) / 1000);
@@ -243,9 +245,11 @@ public class Converter {
         if (typeOfAttribute == null) {
             return "0.0";
         } else if (type.equals("LINE") || type.equals("BRANCH")) {
-            return fraction(typeOfAttribute.getAttributeValue("covered"), typeOfAttribute.getAttributeValue("missed"));
+            return fraction(typeOfAttribute.getAttributeValue("covered"), 
+                            typeOfAttribute.getAttributeValue("missed"));
         } else {
-            return sum(typeOfAttribute.getAttributeValue("covered"), typeOfAttribute.getAttributeValue("missed"));
+            return sum(typeOfAttribute.getAttributeValue("covered"), 
+                       typeOfAttribute.getAttributeValue("missed"));
         }
     }
 
