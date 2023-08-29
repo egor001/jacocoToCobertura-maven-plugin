@@ -9,9 +9,9 @@
 
 ## Переменные
 
-* **source** - путь к файлу формата jacoco (дефолтное значение: `/target/site/jacoco/jacoco.xml`).
+* **source** - путь к файлу формата jacoco (дефолтное значение: `target/site/jacoco/jacoco.xml`).
 * **result** - путь, куда файл `cobertura.xml` будет размещен после работы плагина (дефолтное
-  значение: `/target/site/cobertura/cobertura.xml`).
+  значение: `target/site/cobertura/cobertura.xml`).
 * **pathsToProject** - список путей к классам относительно корня проекта (дефолтное значение: `/src/main/java/`).
 
 ## Использование
@@ -43,13 +43,13 @@
 ```
 **Важно!**   
 Необходимо наличие файла `jacoco.xml` перед запуском **jacocoToCobertura plugin**. Так как **jacocoToCobertura plugin** 
-обрабатывает этот файл.
+обрабатывает этот файл. Для этого стоит в `pom.xml` расположить **Jacoco plugin** выше, чем **jacocoToCobertura plugin**.
 
 ### Использование в Gitlab
 
 Задача данного плагина - графическое отображение покрытия тестами классов и методов в GitLab. Поэтому логично
 использование данного плагина в файле
-`.gitlab-ci.yml`. Пример файла `.gitlab-ci.yml` показывает использование данного плагина без дополнительных изменений
+`.gitlab-ci.yml`. Пример файла `.gitlab-ci.yml` показывает использование данного плагина без внесения дополнительных изменений
 в `pom.xml` Вашего проекта.
 
 
@@ -123,35 +123,27 @@ pet-test/src/main/java
 <project>
     ...
     <build>
-        <!-- To define the plugin version in your parent POM -->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>ru.siblion.lab</groupId>
-                    <artifactId>jacocoToCobertura-maven-plugin</artifactId>
-                    <version>0.0.1</version>
-                </plugin>
-                ...
-            </plugins>
-        </pluginManagement>
         <!-- To use the plugin goals in your POM or parent POM -->
         <plugins>
+            ...
             <plugin>
-                <groupId>ru.siblion.lab</groupId>
-                <artifactId>jacocoToCobertura-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>convert</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <source>path to jacoco.xml</source>
-                    <result>path to cobertura.xml</result>
-                    <pathsToProject>path to classes of project</pathsToProject>
-                </configuration>
-            </plugin>
+              <groupId>ru.siblion.lab</groupId>
+              <artifactId>jacocoToCobertura-maven-plugin</artifactId>
+              <version>0.0.2</version>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal>convert</goal>
+                  </goals>
+                <phase>test</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <source>path to jacoco.xm</source>
+              <result>path to cobertura.xml</result>
+              <pathsToProject>path to project files</pathsToProject>       
+            </configuration>
+          </plugin>
             ...
         </plugins>
     </build>
