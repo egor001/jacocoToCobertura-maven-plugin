@@ -38,7 +38,7 @@ public class ConverterMojo extends AbstractMojo {
     /**
      * List of paths to modules of the project.
      */
-    @Parameter(property = "pathsToProject", defaultValue = "/src/main/java/")
+    @Parameter(property = "pathsToProject", defaultValue = "src/main/java/")
     List<String> pathsToProject;
 
     @Override
