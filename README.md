@@ -82,7 +82,7 @@ mvn-test:
     - "./mvnw $MAVEN_CLI_OPTS clean test"
   artifacts:
     paths:
-      - target/site/jacoco/jacoco.xml
+      - ${CI_PROJECT_NAME}-test/target/site/jacoco-aggregate/jacoco.xml
 
   only:
     - merge_requests
@@ -94,9 +94,9 @@ coverage:
   script:
     - "./mvnw -U $MAVEN_CLI_OPTS dependency:get -Dartifact=ru.siblion.lab:jacocoToCobertura-maven-plugin:0.0.2"
     - "./mvnw $MAVEN_CLI_OPTS ru.siblion.lab:jacocoToCobertura-maven-plugin:0.0.2:convert
-        -Dsource=\"${CI_PROJECT_NAME}-test/target/site/jacoco-aggregate/jacoco.xml\"
-        -Dresult=\"${CI_PROJECT_NAME}-test/target/site/cobertura/cobertura.xml\"
-        -DpathsToProject=\"${CI_PROJECT_DIR}/${CI_PROJECT_NAME}/src/main/java/\",\"${CI_PROJECT_DIR}/${CI_PROJECT_NAME}-api/src/main/java/\""
+        -Dsource="${CI_PROJECT_NAME}-test/target/site/jacoco-aggregate/jacoco.xml"
+        -Dresult="${CI_PROJECT_NAME}-test/target/site/cobertura/cobertura.xml"
+        -DpathsToProject="${CI_PROJECT_DIR}/${CI_PROJECT_NAME}/src/main/java/","${CI_PROJECT_DIR}/${CI_PROJECT_NAME}-api/src/main/java/""
   allow_failure: true
   coverage: "/Total.*?([0-9]{1,3})%/"
   artifacts:
